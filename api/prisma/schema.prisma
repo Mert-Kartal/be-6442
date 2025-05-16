@@ -12,3 +12,63 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Category {
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+  posts      Post[]
+
+  @@map("categories")
+}
+
+model Post {
+  id           Int       @id @default(autoincrement())
+  categoryId   Int
+  title        String
+  content      String
+  created_at   DateTime  @default(now())
+  published_at DateTime?
+  deleted_at   DateTime?
+
+  Category Category      @relation(fields: [categoryId], references: [id])
+  comments PostComment[]
+  PostTag  PostTag[]
+
+  @@map("posts")
+}
+
+model PostComment {
+  id             Int       @id @default(autoincrement())
+  postId         Int
+  content        String
+  commenter_name String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  deleted_at     DateTime?
+
+  Post Post @relation(fields: [postId], references: [id])
+
+  @@map("post_comments")
+}
+
+model Tag {
+  id      Int       @id @default(autoincrement())
+  name    String
+  PostTag PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId Int
+  tagId  Int
+
+  Post Post @relation(fields: [postId], references: [id])
+  Tag  Tag  @relation(fields: [tagId], references: [id])
+
+  @@unique([postId, tagId])
+  @@map("post_tags")
+}
