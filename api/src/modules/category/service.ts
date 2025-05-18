@@ -22,7 +22,9 @@ export const CreateCategory = async (
 
 export const GetCategories = async (): Promise<ResponseCategoryType[]> => {
   try {
-    const categories = await prisma.category.findMany();
+    const categories = await prisma.category.findMany({
+      where: { deleted_at: null },
+    });
     return categories;
   } catch (error) {
     throw new Error((error as Error).message);

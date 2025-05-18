@@ -1,7 +1,9 @@
 import prisma from "../../plugin/db";
-import { PostType, CreatePostType, UpdatePostType } from "./types";
+import { ResponsePostType, CreatePostType, UpdatePostType } from "./types";
 
-export const CreatePost = async (data: CreatePostType): Promise<PostType> => {
+export const CreatePost = async (
+  data: CreatePostType
+): Promise<ResponsePostType> => {
   const createdPost = await prisma.post.create({
     data: {
       title: data.title,
@@ -12,14 +14,14 @@ export const CreatePost = async (data: CreatePostType): Promise<PostType> => {
   return createdPost;
 };
 
-export const GetPosts = async (): Promise<PostType[]> => {
+export const GetPosts = async (): Promise<ResponsePostType[]> => {
   const posts = await prisma.post.findMany({
     where: { deleted_at: null },
   });
   return posts;
 };
 
-export const GetPost = async (id: number): Promise<PostType | null> => {
+export const GetPost = async (id: number): Promise<ResponsePostType | null> => {
   const post = await prisma.post.findUnique({
     where: { id },
   });
@@ -30,7 +32,7 @@ export const GetPost = async (id: number): Promise<PostType | null> => {
 export const UpdatePost = async (
   id: number,
   data: UpdatePostType
-): Promise<PostType> => {
+): Promise<ResponsePostType> => {
   const updatedPost = await prisma.post.update({
     where: { id },
     data: {
@@ -43,7 +45,7 @@ export const UpdatePost = async (
   return updatedPost;
 };
 
-export const DeletePost = async (id: number): Promise<PostType> => {
+export const DeletePost = async (id: number): Promise<ResponsePostType> => {
   const deletedPost = await prisma.post.update({
     where: { id },
     data: { deleted_at: new Date() },

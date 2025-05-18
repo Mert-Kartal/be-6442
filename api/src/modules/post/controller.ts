@@ -30,6 +30,10 @@ export const CreatePostController = async (
 export const GetPostsController = async (req: Request, res: Response) => {
   try {
     const posts = await GetPosts();
+    if (posts.length === 0) {
+      res.status(404).json({ message: "Posts not found" });
+      return;
+    }
     const formattedPosts = ResponsePostListFormatter(posts);
     res.status(200).json(formattedPosts);
   } catch (error) {

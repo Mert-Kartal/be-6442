@@ -1,6 +1,6 @@
-import { PostType } from "./types";
+import { ResponsePostType } from "./types";
 
-export const ResponsePostFormatter = (post: PostType) => {
+export const ResponsePostFormatter = (post: ResponsePostType) => {
   return {
     id: post.id,
     title: post.title,
@@ -10,6 +10,6 @@ export const ResponsePostFormatter = (post: PostType) => {
   };
 };
 
-export const ResponsePostListFormatter = (posts: PostType[]) => {
+export const ResponsePostListFormatter = (posts: ResponsePostType[]) => {
   return posts.map((post) => ResponsePostFormatter(post));
 };

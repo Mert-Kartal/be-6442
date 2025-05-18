@@ -34,6 +34,10 @@ export const CreateCategoryController = async (
 export const GetCategoriesController = async (req: Request, res: Response) => {
   try {
     const categories = await GetCategories();
+    if (categories.length === 0) {
+      res.status(404).json({ message: "Categories not found" });
+      return;
+    }
     const formattedCategories = ResponseCategoryListFormatter(categories);
     res.status(200).json(formattedCategories);
   } catch (error) {
