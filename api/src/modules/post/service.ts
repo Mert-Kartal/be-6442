@@ -23,7 +23,7 @@ export const GetPosts = async (): Promise<ResponsePostType[]> => {
 
 export const GetPost = async (id: number): Promise<ResponsePostType | null> => {
   const post = await prisma.post.findUnique({
-    where: { id },
+    where: { id, deleted_at: null },
   });
 
   return post;
@@ -34,7 +34,7 @@ export const UpdatePost = async (
   data: UpdatePostType
 ): Promise<ResponsePostType> => {
   const updatedPost = await prisma.post.update({
-    where: { id },
+    where: { id, deleted_at: null },
     data: {
       title: data.title,
       content: data.content,

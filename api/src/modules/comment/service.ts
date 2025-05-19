@@ -45,6 +45,7 @@ export const GetComment = async (
     const comment = await prisma.postComment.findUnique({
       where: {
         id,
+        deleted_at: null,
       },
     });
     return comment;
@@ -61,6 +62,7 @@ export const UpdateComment = async (
     const comment = await prisma.postComment.update({
       where: {
         id,
+        deleted_at: null,
       },
       data: {
         content: data.content,

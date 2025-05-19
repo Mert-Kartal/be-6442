@@ -38,6 +38,7 @@ export const GetCategory = async (
     const category = await prisma.category.findUnique({
       where: {
         id,
+        deleted_at: null,
       },
     });
     return category;
@@ -54,6 +55,7 @@ export const UpdateCategory = async (
     const category = await prisma.category.update({
       where: {
         id,
+        deleted_at: null,
       },
       data: {
         name: data.name,
